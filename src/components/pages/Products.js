@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 import EditProduct from "../Modals/EditProduct";
 import { useState, useEffect } from "react";
+import { useCallback } from "react";
 
 
 
@@ -34,34 +35,53 @@ const useStyles = makeStyles({
   });
 
 const Products=(props)=>{
+//   const api="https://intellimall.run-ap-south1.goorm.io/"
+    const api="https://intelli-mall.herokuapp.com/"
+//   const api = "localhost:5000/";
+
+
+
     const history = useHistory();
     const classes = useStyles();
+    const [getServerProduct, setServerProduct] = useState([]);
+
+
+    const fetchData=()=>{
+        fetch(api+'product')
+        .then( response => response.json() )
+        .then( response => {
+            setServerProduct(response)  
+        } );
+    }
 
     const addProductHandler=()=>{
         history.push("/addProduct")
     }
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {setOpen(false);}
     const [getProduct, setGetProduct] = useState();
-    const [getServerProduct, setServerProduct] = useState([]);
 
-
-    useEffect(()=>{
-        fetch('http://localhost:5000/product')
+    const changeState= useCallback(()=>{
+        console.log("USECALL BACK")
+        fetch(api+'product')
         .then( response => response.json() )
         .then( response => {
-            console.log(response)
-            setServerProduct(response)
+            setServerProduct(response)  
         } );
     },[])
 
+    useEffect(()=>{
+        fetchData();
+    },[])
+
+    
 
     return (
         <div>
-            <EditProduct product={getProduct} handleClose={handleClose} open={open}/>
-            <Button onClick={addProductHandler} className={classes.button} variant="contained">Add Product</Button>
+            <EditProduct changeState={changeState} product={getProduct} handleClose={handleClose} open={open}/>
+            <Button style={{backgroundColor:'rgb(244, 130, 31)'}} onClick={addProductHandler} className={classes.button} variant="contained">Add Product</Button>
             <div className={classes.root}>
                 {getServerProduct.map((product)=>{
                     return(

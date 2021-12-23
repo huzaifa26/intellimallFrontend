@@ -190,7 +190,7 @@ function Layout(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Athena
+            Intellimall
           </Typography>
         </Toolbar>
       </AppBar>

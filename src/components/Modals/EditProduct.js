@@ -1,39 +1,59 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import FilledInput from '@mui/material/FilledInput';
 import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import { useRef, useState } from 'react';
 import { useEffect } from 'react';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { Input,FormHelperText,InputLabel } from '@mui/material';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '1px solid lightblue',
-  boxShadow: 24,
-  borderRadius:'10px',
-  p: 4,
-  background:"white",
-  width:"700px",
-  height:"550px"
-};
+let style={
+    position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        bgcolor: 'background.paper',
+        border: '1px solid black',
+        boxShadow: 24,
+        borderRadius:'10px',
+        p: 4,
+        background:"white",
+        width:"57vw",
+        height:"610px"
+}
+
+if(window.screen.width<600){
+    style.width="80vw";
+    style.height="630px"
+}
 
 const style2={
     margin:"6px 4px"
 }
 
-export default function EditProduct(props) {
-    
-    const [file,setFile]=useState();
+const style3={
+    color:"rgb(244, 130, 31)"
+}
 
+const style4={
+    width:"550px"
+}
+
+if(window.screen.width<600){
+    style4.width="250px"
+}
+
+export default function EditProduct(props) {
+    // const api="https://intellimall.run-ap-south1.goorm.io/"
+    // const api="https://intelli-mall.herokuapp.com/"
+  const api = "localhost:5000/";
+
+
+
+    const [file,setFile]=useState();
     const [product,setProduct]=useState({
             id:'',
             title:'',
@@ -56,9 +76,6 @@ export default function EditProduct(props) {
         }
     },[props.handleClose])
 
-    console.log(props)
-
-
     const title=useRef();
     const description=useRef();
     const image_url=useRef();
@@ -66,13 +83,10 @@ export default function EditProduct(props) {
     const category=useRef();
     const last_updated_at=useRef();
 
-
-    const addProductHandler=(e)=>{
+    const editProductHandler=(e)=>{
         e.preventDefault()
-
-        if (file === undefined){
-            setFile(()=> product.image_url)
-        }
+        let date=new Date()
+        let ddate=date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
         
         const params={
             id:product.id,
@@ -81,9 +95,8 @@ export default function EditProduct(props) {
             image_url:file,
             price:price.current.value,
             category:category.current.value,
+            date:ddate
         }
-
-        console.log(params)
 
         const options={
             method: 'PUT',
@@ -94,11 +107,15 @@ export default function EditProduct(props) {
             body: JSON.stringify( params )
         }
         
-        fetch( 'http://localhost:5000/product', options )
+        fetch( api+'product', options )
             .then( response => response.json() )
             .then( response => {
                 console.log(response)
-        });
+                if (response.affectedRows>0){
+                props.changeState()    
+                }
+        });        
+        props.handleClose()
     }
 
     const convertImageToBase64 = (image)=>{
@@ -116,34 +133,58 @@ export default function EditProduct(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <form onSubmit={addProductHandler}>
+        <form onSubmit={editProductHandler}>
             <Box sx={style}>
                 <FormControl sx={style2}>
-                    <TextField defaultValue={product.title} inputRef={title} sx={{ width: 500 }} label="Title" color="primary" focused />
+                    <TextField defaultValue={product.title} inputRef={title} sx={style4} label="Title" color='warning'  />
                 </FormControl>
 
                 <FormControl sx={style2}>
-                    <TextField defaultValue={product.description} inputRef={description} multiline minRows='3' maxRows="6" sx={{ width: 500 }} label="Description" color="primary" focused />
+                    <TextField defaultValue={product.description} inputRef={description} multiline minRows='3' maxRows="6" sx={style4} label="Description" color='warning'/>
                 </FormControl>
 
                 <FormControl sx={style2}>
-                    <input width="200" height="120"  type='image' src={product.image_url} label="Image" color="primary" focused/>
+                    <input width="200" height="120"  type='image' src={product.image_url} label="Image" color='warning' />
                 </FormControl>  
 
                 <FormControl sx={style2}>
-                    <TextField onChange={() => {convertImageToBase64(image_url.current.files[0])}} inputRef={image_url} type='file' sx={{ width: 240 }} label="Image" color="primary" focused/>
+                    <TextField onChange={() => {convertImageToBase64(image_url.current.files[0])}} inputRef={image_url} type='file' sx={style4} label="Image" color='warning' />
                 </FormControl>
 
                 <FormControl sx={style2}>
-                    <TextField defaultValue={product.price} inputRef={price} type='number' sx={{ width: 500 }} label="Price" color="primary" focused/>
-                </FormControl>
+                    <TextField defaultValue={product.price} inputRef={price} type='number' sx={style4} label="Price" color='warning' />
+                </FormControl> 
 
                 <FormControl sx={style2}>
-                    <TextField defaultValue={product.category} inputRef={category} sx={{ width: 500 }} label="Category" color="primary" focused/>
+                    {/* <TextField InputLabelProps={{style3}} defaultValue={product.category} inputRef={category} sx={{ width: 500 }} label="Category" color="primary" focused/> */}
+                    <InputLabel >Category</InputLabel>
+                    <Select
+                        inputRef={category}
+                        sx={style4} 
+                        color='warning'
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Age"
+                        defaultValue={product.category}
+                    >
+                        <MenuItem value={'Beverages '}>Beverages </MenuItem>
+                        <MenuItem value={"Bread/Bakery"}>Bread/Bakery</MenuItem>
+                        <MenuItem value={'Canned/Jarred Goods'}>Canned/Jarred Goods</MenuItem>
+                        <MenuItem value={'Dairy'}>Dairy</MenuItem>
+                        <MenuItem value={"Meat"}>Meat</MenuItem>
+                        <MenuItem value={'Fruits'}>Fruits</MenuItem>
+                        <MenuItem value={'Sauces/Oils'}>Sauces/Oils</MenuItem>
+                        <MenuItem value={"Snacks"}>Snacks</MenuItem>
+                        <MenuItem value={'Pasta/Rice'}>Pasta/Rice</MenuItem>
+                    </Select>
                 </FormControl>
                 
                 <div style={{margin:'4px 4px'}}>
-                    <Button type="submit" variant="contained">Submit</Button>
+                    <Button onClick={()=>{
+                        if (file === undefined){
+                            setFile(()=> product.image_url)
+                        }
+                    }} style={{backgroundColor:'rgb(244, 130, 31)'}} type="submit" variant="contained">Submit</Button>
                 </div> 
             </Box>
         </form>

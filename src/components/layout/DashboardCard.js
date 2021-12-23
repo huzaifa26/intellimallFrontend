@@ -13,7 +13,8 @@ const useStyles = makeStyles({
       padding: "15px",
       marginTop: "20px",
       margin: "0 10px",
-      boxShadow:"2px 2px 8px rgba(0,0,0,0.2)"
+      boxShadow:"2px 2px 8px rgba(0,0,0,0.2)",
+      background:"rgba(244, 130, 31,0.9)"
     },
     bullet: {
       display: 'inline-block',
@@ -22,12 +23,17 @@ const useStyles = makeStyles({
     },
     title: {
       fontSize: 14,
+      color:"rgba(255,255,255,0.7)"
     },
     pos: {
       marginBottom: 12,
     },
     cardAction: {
       marginTop:"20px"
+    },
+    mainText:{
+      color:"white",
+      fontSize:"28px"
     }
   });
 
@@ -43,7 +49,7 @@ const DashboardCard = props =>{
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                 {props.name}
                 </Typography>
-                <Typography variant="h5" component="h2">
+                <Typography className={classes.mainText} variant="h5" component="h2">
                 {props.length + " " + props.name}
                 </Typography>
                 {/* <Typography variant="body2" component="p">

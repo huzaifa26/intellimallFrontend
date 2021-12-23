@@ -1,13 +1,34 @@
 import React, { useRef ,useState, useEffect } from 'react';
 import { Input,FormHelperText,InputLabel } from '@mui/material';
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import FilledInput from '@mui/material/FilledInput';
 import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { useHistory } from "react-router-dom";
+
+
+const useStyles = makeStyles((theme)=>({
+    row:{
+        width:'550px',
+        [theme.breakpoints.down("xs")]: {
+            width:"330px"
+        },
+    }
+}));
+
 
 const AddProduct = (props)=>{
+    const classes = useStyles();
+
+    // const api="https://intellimall.run-ap-south1.goorm.io/"
+    const api="https://intelli-mall.herokuapp.com/"
+//   const api = "localhost:5000/";
+
+    const history = useHistory();
+
 
     const [file,setFile]=useState();
 
@@ -20,6 +41,9 @@ const AddProduct = (props)=>{
 
     const addProductHandler=(e)=>{
         e.preventDefault()
+
+        let date=new Date()
+        let ddate=date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
         
         const params={
             title:title.current.value,
@@ -27,6 +51,7 @@ const AddProduct = (props)=>{
             image_url:file,
             price:price.current.value,
             category:category.current.value,
+            date:ddate
         }
 
         console.log(params)
@@ -40,10 +65,11 @@ const AddProduct = (props)=>{
             body: JSON.stringify( params )
         }
         
-        fetch( 'https://intellimall.run-ap-south1.goorm.io/product', options )
+        fetch( api+'product', options )
             .then( response => response.json() )
             .then( response => {
-                console.log(response)
+                // console.log(response)
+                history.push("/products")
         });
     }
 
@@ -64,27 +90,45 @@ const AddProduct = (props)=>{
                     '& > :not(style)': { m: 1 },}}
                 >
                 <FormControl>
-                    <TextField inputRef={title} sx={{ width: 500 }} label="Title" color="primary" focused />
+                    <TextField className={classes.row} inputRef={title} label="Title" color='warning' />
                 </FormControl>
 
                 <FormControl>
-                    <TextField inputRef={description} multiline minRows='3' maxRows="6" sx={{ width: 500 }} label="Description" color="primary" focused />
+                    <TextField className={classes.row} inputRef={description} multiline minRows='3' maxRows="6" label="Description" color='warning'  />
                 </FormControl>
 
                 <FormControl>
-                    <TextField onChange={() => {convertImageToBase64(image_url.current.files[0])}} inputRef={image_url} type='file' sx={{ width: 500 }} label="Image" color="primary" focused/>
+                    <TextField className={classes.row} onChange={() => {convertImageToBase64(image_url.current.files[0])}} inputRef={image_url} type='file' color='warning' />
                 </FormControl>
 
                 <FormControl>
-                    <TextField inputRef={price} type='number' sx={{ width: 500 }} label="Price" color="primary" focused/>
+                    <TextField className={classes.row} inputRef={price} type='number'  label="Price" color='warning' />
                 </FormControl>
 
                 <FormControl>
-                    <TextField inputRef={category} sx={{ width: 500 }} label="Category" color="primary" focused/>
+                    <InputLabel color='warning'>Category</InputLabel>
+                    <Select
+                        inputRef={category}
+                         
+                        className={classes.row}
+                        color='warning'
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Age"
+                    >
+ {/* ["Beverages","Bread","Canned Goods","Dairy","Dry Goods","Frozen Foods","Meat"] */}
+                        <MenuItem value={'Beverages '}>Beverages </MenuItem>
+                        <MenuItem value={"Bread/Bakery"}>Bread</MenuItem>
+                        <MenuItem value={'Canned/Jarred Goods'}>Canned Goods</MenuItem>
+                        <MenuItem value={'Dairy'}>Dairy</MenuItem>
+                        <MenuItem value={"Meat"}>Dry Goods</MenuItem>
+                        <MenuItem value={'Fruits'}>Frozen Foods</MenuItem>
+                        <MenuItem value={"Snacks"}>Meat</MenuItem>
+                    </Select>
                 </FormControl>
                 
                 <div>
-                    <Button type="submit" variant="contained">Submit</Button>
+                    <Button style={{backgroundColor:'rgb(244, 130, 31)'}} type="submit" variant="contained">Submit</Button>
                 </div> 
             </Box>
         </form>

@@ -21,7 +21,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="">
-        Athena
+        Intellimall 
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signin({ setcurrentUser }) {
 
+  const api="https://intelli-mall.herokuapp.com/"
+
+
   const classes = useStyles();
   const history = useHistory();
 
@@ -65,7 +68,7 @@ export default function Signin({ setcurrentUser }) {
   const [error, setError] = useState();
 
   useEffect(()=>{
-    fetch("http://localhost:5000/admin")
+    fetch(api+"admin")
     .then(response => response.json())
     .then(response => {
       setSignInData(()=>response)
@@ -76,10 +79,7 @@ export default function Signin({ setcurrentUser }) {
 
   const Login = async (e) => {
     e.preventDefault();
-
-
     for (let i = 0; i < signInData.length; i++) {
-
       if (userName === signInData[i].email_address){
         if (password === signInData[i].password){
           console.log("Sign In successfull")
@@ -117,6 +117,7 @@ export default function Signin({ setcurrentUser }) {
               </Alert>
             )}
             <TextField
+              color='warning'
               autoComplete="uname"
               name="userName"
               variant="outlined"
@@ -124,10 +125,10 @@ export default function Signin({ setcurrentUser }) {
               fullWidth
               id="userName"
               label="User Name"
-              autoFocus
               onChange={(e) => setuserName(e.target.value)}
             />
             <TextField
+              color='secondry'
               variant="outlined"
               margin="normal"
               required
@@ -140,13 +141,14 @@ export default function Signin({ setcurrentUser }) {
               onChange={(e) => setpassword(e.target.value)}
             />
             <Button
+              style={{backgroundColor:'rgb(244, 130, 31)'}}
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
               onClick={()=>{
-                fetch("http://localhost:5000/admin")
+                fetch(api+"admin")
                   .then(response => response.json())
                   .then(response => {
                     setSignInData(()=>response)
