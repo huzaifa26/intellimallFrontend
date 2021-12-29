@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
 import AdminLayout from "./components/layout/AdminLayout"
 import Dashboard from "./components/pages/Dashboard"
@@ -53,6 +53,9 @@ function App() {
     } );
   },[])
 
+
+  // const [logIn,setLogIn]=useState(true)
+
   return (
     <Router>
       <Switch>
@@ -86,6 +89,10 @@ function App() {
           path="/addproduct"
           render={() => <AdminLayout body={<AddProduct/>}/>}
         />
+        <Redirect to="/" />
+
+        {/* <Route exact path="/allorders" render={()=> logIn ? ( <AdminLayout body={<Allorders body={ordersData}/>} /> ): ( <Signin />  )} /> */}
+
 
       </Switch>
     </Router>

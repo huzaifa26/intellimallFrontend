@@ -27,6 +27,7 @@ const style = {
   p: 4,
 };
 
+
 if (window.screen.width < 600) {
   style.width = 350;
 }
@@ -61,11 +62,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function (props) {
-  // const api="https://intellimall.run-ap-south1.goorm.io/"
-  const api = "https://intelli-mall.herokuapp.com/";
-  // const api = "localhost:5000/";
-
-  
+  const api="https://intelli-mall.herokuapp.com/"
+ 
 
   const classes = useStyles();
   const [getStatus, setStatus] = useState("In Progress");
@@ -83,38 +81,6 @@ export default function (props) {
       setStatus(props.user.status);
     }
   }, [props.user]);
-
-  // FEEDBACK AUTOMATICALLY POSTS DURING PUT ORDER REQUEST(MARK AS COMPLETED)
-  // const feedback = (order) => {
-  //   let date = new Date();
-  //   let ddate =date.getFullYear() +"-" +date.getMonth() +"-" +date.getDate() +" " +date.getHours() +":" +date.getMinutes() +":" +date.getSeconds();
-
-  //   const params = {
-  //     user_id: order.user_id,
-  //     last_activity_at: ddate,
-  //     status: "pending",
-  //     rating: 0,
-  //     comment: "",
-  //     order_id: order.id,
-  //   };
-
-  //   console.log(params);
-
-  //   const options = {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(params),
-  //   };
-
-  //   fetch(api + "feedback", options)
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       console.log(response);
-  //     });
-  // };
 
   // MARK AS COMPLETE FUNCTION
   const markCompleteHandler = () => {
@@ -183,7 +149,7 @@ export default function (props) {
                 component="h5"
                 sx={{ fontSize: 20, margin: "5px 0" }}
               >
-                Name: {orderData.name}
+                <span style={{fontWeight:"bold"}}>Name: </span> {orderData.name}
               </Typography>
 
               <Typography
@@ -191,7 +157,7 @@ export default function (props) {
                 component="h5"
                 sx={{ fontSize: 20, margin: "5px 0" }}
               >
-                Address: {orderData.address}
+                <span style={{fontWeight:"bold"}}>Address: </span> {orderData.address}
               </Typography>
 
               <Typography
@@ -199,7 +165,7 @@ export default function (props) {
                 component="h5"
                 sx={{ fontSize: 20, margin: "5px 0" }}
               >
-                Phone: {orderData.phone}
+                <span style={{fontWeight:"bold"}}>Phone: </span> {orderData.phone}
               </Typography>
 
               <Typography
@@ -207,7 +173,7 @@ export default function (props) {
                 component="h5"
                 sx={{ fontSize: 20, margin: "5px 0" }}
               >
-                Price: {orderData.price}
+                <span style={{fontWeight:"bold"}}>Price: </span> {orderData.price}
               </Typography>
 
               <Typography
@@ -215,7 +181,7 @@ export default function (props) {
                 component="h5"
                 sx={{ fontSize: 20, margin: "5px 0" }}
               >
-                Last Updated: {orderData.last_updated_at}
+                <span style={{fontWeight:"bold"}}>Last Updated: </span> {orderData.last_updated_at}
               </Typography>
             </div>
           ) : null}

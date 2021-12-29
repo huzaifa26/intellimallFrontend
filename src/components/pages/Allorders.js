@@ -32,10 +32,7 @@ if(window.screen.width<600){
 }
 
 const Allorders = (props) => {
-  // const api = "https://intellimall.run-ap-south1.goorm.io/"
   const api="https://intelli-mall.herokuapp.com/"
-  // const api = "localhost:5000/";
-
 
 
   const [open, setOpen] = useState(false);
@@ -74,7 +71,6 @@ const Allorders = (props) => {
     fetch(api + 'orderitems/' + order.id)
       .then(response => response.json())
       .then(response => {
-        console.log(response)
         setOrderItems(response)
       })
     setOrder(order);

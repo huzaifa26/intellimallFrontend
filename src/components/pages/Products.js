@@ -11,13 +11,11 @@ import EditProduct from "../Modals/EditProduct";
 import { useState, useEffect } from "react";
 import { useCallback } from "react";
 
-
-
 const useStyles = makeStyles({
     root: {
         display:'flex',
         flexDirection:'row',
-        justifyContent:'space-between',
+        justifyContent:'flex-start',
         flexWrap:'wrap'
     },
     card:{
@@ -34,12 +32,16 @@ const useStyles = makeStyles({
     }
   });
 
+  let style = {
+    backgroundColor:'rgb(244, 130, 31)'
+  };
+
+if (window.screen.width < 600) {
+    style.marginLeft="85px"
+  }
+
 const Products=(props)=>{
-//   const api="https://intellimall.run-ap-south1.goorm.io/"
     const api="https://intelli-mall.herokuapp.com/"
-//   const api = "localhost:5000/";
-
-
 
     const history = useHistory();
     const classes = useStyles();
@@ -59,12 +61,13 @@ const Products=(props)=>{
     }
 
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => {setOpen(false);}
     const [getProduct, setGetProduct] = useState();
 
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {setOpen(false);}
+
     const changeState= useCallback(()=>{
-        console.log("USECALL BACK")
         fetch(api+'product')
         .then( response => response.json() )
         .then( response => {
@@ -76,12 +79,13 @@ const Products=(props)=>{
         fetchData();
     },[])
 
+
     
 
     return (
         <div>
             <EditProduct changeState={changeState} product={getProduct} handleClose={handleClose} open={open}/>
-            <Button style={{backgroundColor:'rgb(244, 130, 31)'}} onClick={addProductHandler} className={classes.button} variant="contained">Add Product</Button>
+            <Button style={style} onClick={addProductHandler} className={classes.button} variant="contained">Add Product</Button>
             <div className={classes.root}>
                 {getServerProduct.map((product)=>{
                     return(
@@ -94,6 +98,7 @@ const Products=(props)=>{
                             alt="green iguana"
                         />
                         <CardContent>
+                            <Typography style={{fontSize:"10px"}} variant="body2" color="text.secondary">{product.category}</Typography>
                             <Typography gutterBottom variant="h5" component="div">{product.title}</Typography>
                             <Typography variant="body2" color="text.secondary">{product.description}</Typography>
                         </CardContent>

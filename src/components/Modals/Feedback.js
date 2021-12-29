@@ -2,8 +2,7 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 
 const Feedback=(props)=>{
-//   const api = "localhost:5000/";
-const api="http://intelli-mall.herokuapp.com/"
+    const api="https://intelli-mall.herokuapp.com/"
 
 
     const [feedback,setFeedback]=useState([{
@@ -21,13 +20,13 @@ const api="http://intelli-mall.herokuapp.com/"
 
 
     return(
-        <div>
+        <div style={{marginTop:"50px", boxShadow:"0px 0px 1px 0.1px", borderRadius:"5px", padding:10}}>
         <Typography
             variant="h1"
             component="h5"
             sx={{ fontSize: 20, margin: "5px 0" }}
             >
-            {"Feedback"}
+            <span style={{fontWeight:"bold"}}>Feedback:</span> {feedback.status}
         </Typography>
 
         <Typography
@@ -35,7 +34,7 @@ const api="http://intelli-mall.herokuapp.com/"
             component="h5"
             sx={{ fontSize: 20, margin: "5px 0" }}
             >
-            Comment: {feedback.comment}
+            <span style={{fontWeight:"bold"}}>Comment:</span> {feedback.comment}
         </Typography>
 
         <Typography
@@ -43,7 +42,7 @@ const api="http://intelli-mall.herokuapp.com/"
             component="h5"
             sx={{ fontSize: 20, margin: "5px 0" }}
             >
-            Rating: {feedback.rating}
+            <span style={{fontWeight:"bold"}}>Rating:</span> {feedback.rating}
         </Typography>
         </div>
     )

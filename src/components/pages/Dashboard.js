@@ -3,26 +3,10 @@ import DashboardCard from "../layout/DashboardCard";
 import { useState } from "react";
 import { useEffect } from "react";
 
+
+
 const Dashboard=(props)=>{
-    // const [orders,setOrders]=useState([]);
-    // const [users,setUsers]=useState([]);
-    // const [product,setProduct]=useState([]);
-    // const [totalearning,settotalearning]=useState([]);
-
-
-    // useEffect(()=>{
-    //     setOrders(()=> props.ordersData)
-    //     setUsers(()=> props.usersData)
-    //     setProduct(()=> props.productData)
-    //     settotalearning(()=> props.totalearning)
-    // },[])
-
-    // const api="https://intellimall.run-ap-south1.goorm.io/"
   const api="https://intelli-mall.herokuapp.com/"
-  // const api = "localhost:5000/";
-
-
-
 
     const [ordersData,setOrdersData]=useState([]);
     const [usersData,setUsersData]=useState([]);
@@ -35,6 +19,10 @@ const Dashboard=(props)=>{
       .then( response => {
         setOrdersData(response)
       } );
+
+      return()=>{
+        setOrdersData([])
+      }
     },[])
   
     useEffect(()=>{
@@ -43,6 +31,10 @@ const Dashboard=(props)=>{
       .then( response => {
         setUsersData(response)
       } );
+
+      return()=>{
+        setUsersData([])
+      }
     },[])
   
     useEffect(()=>{
@@ -51,6 +43,10 @@ const Dashboard=(props)=>{
       .then( response => {
         setProductData(response)
       } );
+
+      return()=>{
+        setProductData([])
+      }
     },[])
   
     useEffect(()=>{
@@ -59,6 +55,10 @@ const Dashboard=(props)=>{
       .then( response => {
         settotalearning(response[0].price)
       } );
+
+      return()=>{
+        settotalearning([])
+      }
     },[])
 
 

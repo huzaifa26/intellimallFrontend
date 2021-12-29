@@ -6,6 +6,12 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+let style = {};
+
+if (window.screen.width < 600) {
+  style.marginLeft="25px"
+}
+
 const useStyles = makeStyles({
     root: {
       width: "300px",
@@ -44,7 +50,7 @@ const DashboardCard = props =>{
 
 
     return(
-        <Card className={classes.root} variant="outlined">
+        <Card style={style} className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                 {props.name}

@@ -32,10 +32,7 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 const User = (props) => {
-//   const api="https://intellimall.run-ap-south1.goorm.io/"
     const api="https://intelli-mall.herokuapp.com/"
-//   const api = "localhost:5000/";
-
 
     const classes = useStyles();
 
