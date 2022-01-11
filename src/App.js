@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
 import AdminLayout from "./components/layout/AdminLayout"
 import Dashboard from "./components/pages/Dashboard"
@@ -9,26 +9,20 @@ import User from "./components/pages/User";
 import Products from "./components/pages/Products";
 import Signin from "./components/auth/Signin";
 import AddProduct from "./components/pages/AddProduct";
-// import EditProduct from "./components/pages/EditProduct";
 
 function App() {
-  const [members, setMembers] = useState([]);
-  const [teams, setTeams] = useState([]);
-  const [approvedUsers, setApprovedUsers]=useState([]);
-  const [unapprovedUsers, setUnapprovedUsers]=useState([]);
-  const [locations, setLocations] = useState([]);
-  const [tasks, setTasks] = useState([]);
-  const [alerts, setAlerts] = useState([]);
-  const [apiKey, setapiKey] = useState([]);
-  const [currentUser, setcurrentUser] = useState();
+  // const api="https://intellimall.run-ap-south1.goorm.io/"
+  const api="https://intelli--mall.herokuapp.com/"
+  // const api = "localhost:5000/";
+
 
   const [ordersData,setOrdersData]=useState();
   const [usersData,setUsersData]=useState();
   const [productData,setProductData]=useState();
-  const [editProductData,setEditProductData]=useState();
+  const [totalearning,settotalearning]=useState();
 
   useEffect(()=>{
-    fetch( 'http://localhost:5000/order' )
+    fetch( api+'order' )
     .then( response => response.json() )
     .then( response => {
       setOrdersData(response)
@@ -36,7 +30,7 @@ function App() {
   },[])
 
   useEffect(()=>{
-    fetch( 'http://localhost:5000/user' )
+    fetch( api+'user' )
     .then( response => response.json() )
     .then( response => {
       setUsersData(response)
@@ -44,12 +38,23 @@ function App() {
   },[])
 
   useEffect(()=>{
-    fetch( 'http://localhost:5000/product' )
+    fetch( api+'product' )
     .then( response => response.json() )
     .then( response => {
       setProductData(response)
     } );
   },[])
+
+  useEffect(()=>{
+    fetch( api+'totalearning' )
+    .then( response => response.json() )
+    .then( response => {
+      settotalearning(response)
+    } );
+  },[])
+
+
+  // const [logIn,setLogIn]=useState(true)
 
   return (
     <Router>
@@ -62,7 +67,7 @@ function App() {
       <Route
           exact
           path="/dashboard"
-          render={() => <AdminLayout body={<Dashboard ordersData={ordersData} usersData={usersData} productData={productData} />} />}
+          render={() => <AdminLayout body={<Dashboard totalearning={totalearning} ordersData={ordersData} usersData={usersData} productData={productData} />} />}
         />
         <Route
           exact
@@ -84,11 +89,11 @@ function App() {
           path="/addproduct"
           render={() => <AdminLayout body={<AddProduct/>}/>}
         />
-        {/* <Route
-          exact
-          path="/editproduct"
-          render={() => <AdminLayout body={<EditProduct product={editProductData}/>}/>}
-        /> */}
+        <Redirect to="/" />
+
+        {/* <Route exact path="/allorders" render={()=> logIn ? ( <AdminLayout body={<Allorders body={ordersData}/>} /> ): ( <Signin />  )} /> */}
+
+
       </Switch>
     </Router>
   );

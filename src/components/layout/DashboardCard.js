@@ -6,6 +6,12 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+let style = {};
+
+if (window.screen.width < 600) {
+  style.marginLeft="25px"
+}
+
 const useStyles = makeStyles({
     root: {
       width: "300px",
@@ -13,7 +19,8 @@ const useStyles = makeStyles({
       padding: "15px",
       marginTop: "20px",
       margin: "0 10px",
-      boxShadow:"2px 2px 8px rgba(0,0,0,0.2)"
+      boxShadow:"2px 2px 8px rgba(0,0,0,0.2)",
+      background:"rgba(244, 130, 31,0.9)"
     },
     bullet: {
       display: 'inline-block',
@@ -22,12 +29,17 @@ const useStyles = makeStyles({
     },
     title: {
       fontSize: 14,
+      color:"rgba(255,255,255,0.7)"
     },
     pos: {
       marginBottom: 12,
     },
     cardAction: {
       marginTop:"20px"
+    },
+    mainText:{
+      color:"white",
+      fontSize:"28px"
     }
   });
 
@@ -38,12 +50,12 @@ const DashboardCard = props =>{
 
 
     return(
-        <Card className={classes.root} variant="outlined">
+        <Card style={style} className={classes.root} variant="outlined">
             <CardContent>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                 {props.name}
                 </Typography>
-                <Typography variant="h5" component="h2">
+                <Typography className={classes.mainText} variant="h5" component="h2">
                 {props.length + " " + props.name}
                 </Typography>
                 {/* <Typography variant="body2" component="p">

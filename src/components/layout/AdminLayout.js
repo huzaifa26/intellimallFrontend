@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
-import logo from "./Logo Image/Logo.png"
+import logo from "./Logo Image/Photo_1633386927611.jpg"
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     height: "64px"
   },
   appBar: {
+    background:'rgb(244, 130, 31)',
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -68,15 +69,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "50px",
   },
   active: {
-    borderLeft: "5px solid #2979ff",
-    backgroundColor: "#2979ff26",
+    borderLeft: "5px solid rgba(244, 130, 31,0.8)",
+    backgroundColor: "rgba(244, 130, 31,0.3)",
     "& span": {
       fontWeight: 600,
-      color: "#3774ff",
+      color: "rgba(244, 130, 31,0.8)",
     },
     "& .MuiListItemIcon-root": {
       minWidth: 50,
-      color: "#3774ff",
+      color: "rgba(244, 130, 31,0.8)",
     },
     marginTop: "10px",
     marginBottom: "10px",
@@ -136,7 +137,7 @@ function AdminLayout(props) {
     
   ];
 
-  const [titleName,setTitleName]=useState("Dash Board")
+  const [titleName,setTitleName]=useState("DashBoard")
 
 
   const listOnClick = () => {
@@ -167,7 +168,7 @@ function AdminLayout(props) {
     <div> 
       <div className={classes.toolbar}>
           <Typography variant="h6" className={classes.typo} noWrap>
-            <img style={{height:"70px", width:"70px"}} src={logo} alt={"logo"}/>
+            <img style={{height:"90px", width:"90px"}} src={logo} alt={"logo"}/>
           </Typography>  
       </div>
       <Divider />
@@ -192,9 +193,8 @@ function AdminLayout(props) {
         })}
       </List>
       <Button
-        style={{ marginLeft: "55px" }}
+        style={{ marginLeft: "55px", background:'rgb(244, 130, 31)' }}
         startIcon={<ExitToAppIcon />}
-        color="primary"
         variant="contained"
         onClick={() => history.push("/")}
       >

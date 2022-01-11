@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@mui/material/Table';
@@ -9,7 +9,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import OrderItems from "../Modals/OrderItems";
-import Button from '@mui/material/Button';
 
 const useStyles = makeStyles({
   root: {
@@ -24,77 +23,83 @@ const useStyles = makeStyles({
   }
 });
 
+const style1={
+  width: '78vw'
+}
+
+if(window.screen.width<600){
+  style1.width="87vw";
+}
+
 const Allorders = (props) => {
-  const [age, setAge] = React.useState('');
+  const api="https://intelli--mall.herokuapp.com/"
 
-  const [ordersData, setOrdersData] = useState();
-  const [usersData, setUsersData] = useState();
-  const [productData, setProductData] = useState();
-  const [editProductData, setEditProductData] = useState();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   const classes = useStyles();
   const [getOrder, setOrder] = useState();
   const [orderItems, setOrderItems] = useState([]);
   const [getOrderFromServer, setOrderFromServer] = useState([]);
+  const [order_id, getOrder_id] = useState([]);
+  const [user,setUser]=useState([]);
 
-
-  useEffect(()=>{
-      fetch( 'http://localhost:5000/order' )
-      .then( response => response.json() )
-      .then( response => {
-        setOrderFromServer(response)
-      } );
-  },[]);
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const editOrderHandler = (order) => {
-    fetch('http://localhost:5000/orderitems/' + order.id)
+  const fetchData = () => {
+    fetch(api + 'order')
       .then(response => response.json())
       .then(response => {
-        console.log(response)
-        setOrderItems(response)
+        setOrderFromServer(response)
       });
+  }
 
+  const changeState = useCallback(() => {
+    console.log("USECALL BACK")
+    fetch(api + 'order')
+      .then(response => response.json())
+      .then(response => {
+        setOrderFromServer(response)
+      });
+  }, [])
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // GETTING ORDER_ITEMS DATA W.R.T USER_ID AND OPEN MODEL
+  const editOrderHandler = (order) => {
+    fetch(api + 'orderitems/' + order.id)
+      .then(response => response.json())
+      .then(response => {
+        setOrderItems(response)
+      })
     setOrder(order);
     handleOpen();
   }
 
   return (
     <div>
-      <OrderItems orderItems={orderItems} open={open} handleClose={handleClose} />
-      <TableContainer className={classes.root} component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right" className={classes.status}>Status</TableCell>
-              {/* <TableCell align="right" className={classes.status}>Update Status</TableCell> */}
+      <OrderItems order_id={order_id} user={user} getOrderFromServer={getOrderFromServer} changeState={changeState} orderItems={orderItems} open={open} handleClose={handleClose} />
+      <TableContainer sx={style1} className={classes.root} component={Paper}>
+        <Table sx={{  }} aria-label="simple table">
+          <TableHead sx={{background:"rgba(244, 130, 31,0.9)"}}>
+            <TableRow >
+              <TableCell sx={{color:"white", fontSize:"16px"}}>Name</TableCell>
+              <TableCell sx={{color:"white", fontSize:"16px"}} align="center">Price</TableCell>
+              <TableCell sx={{color:"white", fontSize:"16px"}} align="right" className={classes.status}>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {getOrderFromServer?.map((order) => (
               <TableRow
-                onClick={() => { editOrderHandler(order) }}
+                onClick={() => { editOrderHandler(order); setUser(order); getOrder_id(order) }}
                 key={order.id}
                 className={classes.row}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell className={classes.pointer} component="th" scope="row">
-                  {order.name}
-                </TableCell>
-                <TableCell align="right">{order.price}</TableCell>
+                <TableCell className={classes.pointer} component="th" scope="row">{order.name}</TableCell>
+                <TableCell align="center">{order.price}</TableCell>
                 <TableCell align="right">{order.status}</TableCell>
-                {/* <TableCell align="right">
-                        {order.status === "In progress" && <Button onClick={()=>{markCompleteHandler(order.id)}} type="submit" variant="contained">Mark As Complete</Button>}
-                      </TableCell>  */}
               </TableRow>
             ))}
           </TableBody>

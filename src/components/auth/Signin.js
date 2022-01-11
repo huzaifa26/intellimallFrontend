@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -12,7 +11,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
-import { db } from "../firebase/firebase";
 import { Card } from "@material-ui/core";
 import { useEffect } from "react";
 
@@ -21,7 +19,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="">
-        Athena
+        Intellimall 
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -55,6 +53,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Signin({ setcurrentUser }) {
+  const api="https://intelli--mall.herokuapp.com/"
+
 
   const classes = useStyles();
   const history = useHistory();
@@ -65,21 +65,17 @@ export default function Signin({ setcurrentUser }) {
   const [error, setError] = useState();
 
   useEffect(()=>{
-    fetch("http://localhost:5000/admin")
+    fetch(api+"admin")
     .then(response => response.json())
     .then(response => {
       setSignInData(()=>response)
     })
   },[])
 
-  console.log(signInData)
 
   const Login = async (e) => {
     e.preventDefault();
-
-
     for (let i = 0; i < signInData.length; i++) {
-
       if (userName === signInData[i].email_address){
         if (password === signInData[i].password){
           console.log("Sign In successfull")
@@ -117,6 +113,7 @@ export default function Signin({ setcurrentUser }) {
               </Alert>
             )}
             <TextField
+              color='warning'
               autoComplete="uname"
               name="userName"
               variant="outlined"
@@ -124,10 +121,10 @@ export default function Signin({ setcurrentUser }) {
               fullWidth
               id="userName"
               label="User Name"
-              autoFocus
               onChange={(e) => setuserName(e.target.value)}
             />
             <TextField
+              color='secondry'
               variant="outlined"
               margin="normal"
               required
@@ -140,13 +137,14 @@ export default function Signin({ setcurrentUser }) {
               onChange={(e) => setpassword(e.target.value)}
             />
             <Button
+              style={{backgroundColor:'rgb(244, 130, 31)'}}
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
               onClick={()=>{
-                fetch("http://localhost:5000/admin")
+                fetch(api+"admin")
                   .then(response => response.json())
                   .then(response => {
                     setSignInData(()=>response)
