@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 const User = (props) => {
-    const api="https://intelli-mall.herokuapp.com/"
+    const api="https://intelli--mall.herokuapp.com/"
 
     const classes = useStyles();
 

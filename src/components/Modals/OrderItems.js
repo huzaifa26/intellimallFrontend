@@ -62,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function (props) {
-  const api="https://intelli-mall.herokuapp.com/"
+
+  const api="https://intelli--mall.herokuapp.com/"
  
 
   const classes = useStyles();

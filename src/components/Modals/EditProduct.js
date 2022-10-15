@@ -47,7 +47,8 @@ if (window.screen.width < 600) {
 }
 
 export default function EditProduct(props) {
-  const api = "https://intelli-mall.herokuapp.com/";
+
+  const api = "https://intelli--mall.herokuapp.com/";
 
   const [file, setFile] = useState();
   const [updatedFile, setUpdatedFile] = useState();
@@ -71,6 +72,13 @@ export default function EditProduct(props) {
         price: props.product.price,
         category: props.product.category,
       });
+
+      return()=>{
+        // setProduct({image_url:''})
+        setUpdatedFile("");
+
+      }
+
     }
   }, [props.handleClose]);
 

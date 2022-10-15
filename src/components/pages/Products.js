@@ -41,7 +41,7 @@ if (window.screen.width < 600) {
   }
 
 const Products=(props)=>{
-    const api="https://intelli-mall.herokuapp.com/"
+    const api="https://intelli--mall.herokuapp.com/"
 
     const history = useHistory();
     const classes = useStyles();

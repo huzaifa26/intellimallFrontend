@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 
 const Dashboard=(props)=>{
-  const api="https://intelli-mall.herokuapp.com/"
+  const api="https://intelli--mall.herokuapp.com/"
 
     const [ordersData,setOrdersData]=useState([]);
     const [usersData,setUsersData]=useState([]);

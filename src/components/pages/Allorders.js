@@ -32,7 +32,8 @@ if(window.screen.width<600){
 }
 
 const Allorders = (props) => {
-  const api="https://intelli-mall.herokuapp.com/"
+  const api="https://intelli--mall.herokuapp.com/"
+
 
 
   const [open, setOpen] = useState(false);
