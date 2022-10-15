@@ -12,8 +12,8 @@ import AddProduct from "./components/pages/AddProduct";
 
 function App() {
   // const api="https://intellimall.run-ap-south1.goorm.io/"
+
   const api="https://intelli--mall.herokuapp.com/"
-  // const api = "localhost:5000/";
 
 
   const [ordersData,setOrdersData]=useState();

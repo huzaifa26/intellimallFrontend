@@ -47,6 +47,7 @@ if (window.screen.width < 600) {
 }
 
 export default function EditProduct(props) {
+
   const api = "https://intelli--mall.herokuapp.com/";
 
   const [file, setFile] = useState();
@@ -77,6 +78,7 @@ export default function EditProduct(props) {
         setUpdatedFile("");
 
       }
+
     }
   }, [props.handleClose]);
 

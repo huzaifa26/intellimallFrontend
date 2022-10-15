@@ -2,7 +2,9 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 
 const Feedback=(props)=>{
+
     const api="hhttps://intelli--mall.herokuapp.com/"
+
 
 
     const [feedback,setFeedback]=useState([{

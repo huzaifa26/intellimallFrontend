@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddProduct = (props) => {
   const classes = useStyles();
+
   const api = "https://intelli--mall.herokuapp.com/";
 
   const history = useHistory();
